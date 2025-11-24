@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "gallery:build": "pnpm -F gallery build"
+    "gallery:build": "pnpm -F gallery build",
+    "studio:local": "pnpm -F studio run dev"
   },
   "keywords": [],
   "author": "",

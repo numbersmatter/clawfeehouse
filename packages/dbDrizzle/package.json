@@ -1,0 +1,25 @@
+{
+  "name": "@workspace/dbDrizzle",
+  "version": "1.0.0",
+  "description": "Database schema and utilities using Drizzle ORM with Cloudflare D1.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest",
+    "lint": "eslint . --ext .ts,.tsx"
+  },
+  "dependencies": {
+    "better-auth": "^1.6.2",
+    "better-sqlite3": "^12.8.0",
+    "drizzle-orm": "~0.45.2"
+  },
+  "devDependencies": {
+    "vitest": "^0.34.0",
+    "eslint": "^8.0.0",
+    "@types/node": "^24.0.3",
+    "drizzle-kit": "~0.31.1",
+    "typescript": "^6.0.0",
+    "wrangler": "^4.20.2"
+  }
+}

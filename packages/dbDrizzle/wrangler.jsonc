@@ -1,0 +1,19 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "compatibility_date": "2025-04-04",
+  // D1 databases configuration.
+  "d1_databases": [
+    {
+      "binding": "db_clawfeehouse",
+      "database_name": "db_clawfeehouse",
+      "database_id": "4f1bbeed-5918-4c7c-9372-4642bb7ff4f4",
+      "preview_database_id": "test-db", // A user-defined ID for your local test database.
+    },
+    {
+      "binding": "TEST_DB",
+      "database_name": "development.sqlite",
+      "database_id": "local-test-db",
+      "preview_database_id": "local-test-db-preview",
+    },
+  ],
+}

@@ -1,0 +1,21 @@
+{
+  "name": "@workspace/auth",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./server": "./src/server/index.ts",
+    "./client": "./src/client/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@workspace/dbDrizzle": "workspace:*",
+    "better-auth": "^1.6.2"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}

@@ -57,7 +57,11 @@ export async function action({ request, context }: Route.ActionArgs) {
     };
   }
 
-  const callbackURL = getAuthCallbackUrl(app, safeRedirectTo);
+  const callbackURL = getAuthCallbackUrl(
+    app,
+    safeRedirectTo,
+    request.url,
+  );
   const endpoint = new URL("/api/auth/sign-up/email", request.url);
   const authRequest = new Request(endpoint, {
     method: "POST",
@@ -127,7 +131,7 @@ export default function SignUp({
               type="text"
               name="name"
               required
-              className="w-full rounded-md border border-gray-300 px-3 py-2"
+              className="w-full rounded-md border border-gray-300 text-gray-800 px-3 py-2"
             />
           </label>
 
@@ -147,7 +151,7 @@ export default function SignUp({
               type="password"
               name="password"
               required
-              className="w-full rounded-md border border-gray-300 px-3 py-2"
+              className="w-full rounded-md border border-gray-300 text-gray-800 px-3 py-2"
             />
           </label>
 

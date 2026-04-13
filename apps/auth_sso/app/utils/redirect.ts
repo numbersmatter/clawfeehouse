@@ -1,17 +1,42 @@
 const AUTH_HOST = "https://auth.clawfeehouse.com";
 const ADMIN_ORIGIN = "https://admin.clawfeehouse.com";
 const GALLERY_ORIGIN = "https://gallery.clawfeehouse.com";
+const LOCAL_AUTH_HOST = "http://localhost:5175";
+const LOCAL_ADMIN_ORIGIN = "http://localhost:5173";
+const LOCAL_GALLERY_ORIGIN = "http://localhost:5174";
 
-const ALLOWED_ORIGINS = [ADMIN_ORIGIN, GALLERY_ORIGIN];
-const DEFAULT_ADMIN_TARGET = `${ADMIN_ORIGIN}/dashboard`;
-const DEFAULT_GALLERY_TARGET = `${GALLERY_ORIGIN}/private`;
+const ALLOWED_ORIGINS = [
+  ADMIN_ORIGIN,
+  GALLERY_ORIGIN,
+  LOCAL_ADMIN_ORIGIN,
+  LOCAL_GALLERY_ORIGIN,
+];
 
-function inferDefaultTarget(app?: string | null): string {
+function isLocalHost(hostname: string): boolean {
+  return hostname === "localhost" || hostname === "127.0.0.1";
+}
+
+function getDefaultAdminTarget(isLocal: boolean): string {
+  return isLocal
+    ? `${LOCAL_ADMIN_ORIGIN}/dashboard`
+    : `${ADMIN_ORIGIN}/dashboard`;
+}
+
+function getDefaultGalleryTarget(isLocal: boolean): string {
+  return isLocal
+    ? `${LOCAL_GALLERY_ORIGIN}/private`
+    : `${GALLERY_ORIGIN}/private`;
+}
+
+function inferDefaultTarget(
+  app: string | null,
+  isLocal: boolean,
+): string {
   if (app === "gallery") {
-    return DEFAULT_GALLERY_TARGET;
+    return getDefaultGalleryTarget(isLocal);
   }
 
-  return DEFAULT_ADMIN_TARGET;
+  return getDefaultAdminTarget(isLocal);
 }
 
 export function getSafeRedirectTo(
@@ -20,7 +45,10 @@ export function getSafeRedirectTo(
   const url = new URL(urlString);
   const app = url.searchParams.get("app");
   const redirectTo = url.searchParams.get("redirectTo");
-  const fallback = inferDefaultTarget(app);
+  const fallback = inferDefaultTarget(
+    app,
+    isLocalHost(url.hostname),
+  );
 
   if (!redirectTo) {
     return fallback;
@@ -62,6 +90,7 @@ export function getSignUpPath(urlString: string): string {
 export function getAuthCallbackUrl(
   app: string | null,
   redirectTo: string,
+  requestUrl?: string,
 ): string {
   const safeApp = app === "gallery" ? "gallery" : "admin";
   const params = new URLSearchParams({
@@ -69,5 +98,15 @@ export function getAuthCallbackUrl(
     redirectTo,
   });
 
-  return `${AUTH_HOST}/callback?${params.toString()}`;
+  let authOrigin = AUTH_HOST;
+
+  if (requestUrl) {
+    const request = new URL(requestUrl);
+
+    if (isLocalHost(request.hostname)) {
+      authOrigin = LOCAL_AUTH_HOST;
+    }
+  }
+
+  return `${authOrigin}/callback?${params.toString()}`;
 }

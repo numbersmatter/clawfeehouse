@@ -56,7 +56,11 @@ export async function action({ request, context }: Route.ActionArgs) {
     };
   }
 
-  const callbackURL = getAuthCallbackUrl(app, safeRedirectTo);
+  const callbackURL = getAuthCallbackUrl(
+    app,
+    safeRedirectTo,
+    request.url,
+  );
   const endpoint = new URL("/api/auth/sign-in/email", request.url);
   const authRequest = new Request(endpoint, {
     method: "POST",
@@ -153,7 +157,13 @@ export default function SignIn({
             <a
               className="rounded-md border border-gray-300 px-3 py-2"
               href={`/api/auth/sign-in/social?provider=google&callbackURL=${encodeURIComponent(
-                getAuthCallbackUrl(loaderData.app, loaderData.redirectTo),
+                getAuthCallbackUrl(
+                  loaderData.app,
+                  loaderData.redirectTo,
+                  typeof window !== "undefined"
+                    ? window.location.href
+                    : undefined,
+                ),
               )}`}
             >
               Google
@@ -161,7 +171,13 @@ export default function SignIn({
             <a
               className="rounded-md border border-gray-300 px-3 py-2"
               href={`/api/auth/sign-in/social?provider=discord&callbackURL=${encodeURIComponent(
-                getAuthCallbackUrl(loaderData.app, loaderData.redirectTo),
+                getAuthCallbackUrl(
+                  loaderData.app,
+                  loaderData.redirectTo,
+                  typeof window !== "undefined"
+                    ? window.location.href
+                    : undefined,
+                ),
               )}`}
             >
               Discord

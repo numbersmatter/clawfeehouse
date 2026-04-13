@@ -14,6 +14,22 @@ interface AppSession {
   };
 }
 
+function resolveAuthHost(
+  request: Request,
+  configuredHost: string,
+): string {
+  const url = new URL(request.url);
+
+  if (
+    url.hostname === "localhost" ||
+    url.hostname === "127.0.0.1"
+  ) {
+    return "http://localhost:5175";
+  }
+
+  return configuredHost;
+}
+
 function isProtectedPath(pathname: string): boolean {
   return pathname === "/private";
 }
@@ -66,7 +82,7 @@ export default {
       if (!session) {
         return createAuthRedirect(
           request,
-          env.AUTH_SSO_URL,
+          resolveAuthHost(request, env.AUTH_SSO_URL),
         );
       }
     }

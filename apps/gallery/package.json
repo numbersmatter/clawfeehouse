@@ -12,6 +12,8 @@
     "typecheck": "pnpm run cf-typegen && react-router typegen && tsc -b"
   },
   "dependencies": {
+    "@workspace/auth": "workspace:*",
+    "@workspace/dbDrizzle": "workspace:*",
     "@headlessui/react": "^2.2.9",
     "@heroicons/react": "^2.2.0",
     "clsx": "^2.1.1",

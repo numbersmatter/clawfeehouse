@@ -9,6 +9,7 @@ export default [
   layout("routes/layout.tsx", [
     index("routes/home.tsx"),
     route("view/:viewId", "routes/image_id.tsx"),
+    route("private", "routes/private.tsx"),
   ]),
   layout("routes/main_gallery.tsx", [
     route("test", "routes/gallery.tsx"),

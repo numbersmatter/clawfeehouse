@@ -11,6 +11,12 @@ importers:
 
   apps/admin:
     dependencies:
+      '@workspace/auth':
+        specifier: workspace:*
+        version: link:../../packages/auth
+      '@workspace/dbDrizzle':
+        specifier: workspace:*
+        version: file:packages/dbDrizzle(@opentelemetry/api@1.9.1)(drizzle-kit@0.31.10)(kysely@0.28.15)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       isbot:
         specifier: ^5.1.31
         version: 5.1.32
@@ -58,6 +64,61 @@ importers:
         specifier: ^4.81.1
         version: 4.81.1
 
+  apps/auth_sso:
+    dependencies:
+      '@workspace/auth':
+        specifier: workspace:*
+        version: link:../../packages/auth
+      '@workspace/dbDrizzle':
+        specifier: workspace:*
+        version: file:packages/dbDrizzle(@opentelemetry/api@1.9.1)(drizzle-kit@0.31.10)(kysely@0.28.15)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      isbot:
+        specifier: ^5.1.31
+        version: 5.1.32
+      react:
+        specifier: ^19.1.1
+        version: 19.2.3
+      react-dom:
+        specifier: ^19.1.1
+        version: 19.2.3(react@19.2.3)
+      react-router:
+        specifier: ^7.10.0
+        version: 7.11.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+    devDependencies:
+      '@cloudflare/vite-plugin':
+        specifier: ^1.13.5
+        version: 1.19.0(vite@7.3.0(@types/node@22.19.3)(jiti@2.6.1)(lightningcss@1.32.0)(tsx@4.21.0)(yaml@2.8.2))(workerd@1.20260409.1)(wrangler@4.81.1)
+      '@react-router/dev':
+        specifier: ^7.10.0
+        version: 7.11.0(@types/node@22.19.3)(jiti@2.6.1)(lightningcss@1.32.0)(react-router@7.11.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(tsx@4.21.0)(typescript@5.9.3)(vite@7.3.0(@types/node@22.19.3)(jiti@2.6.1)(lightningcss@1.32.0)(tsx@4.21.0)(yaml@2.8.2))(wrangler@4.81.1)(yaml@2.8.2)
+      '@tailwindcss/vite':
+        specifier: ^4.1.13
+        version: 4.1.18(vite@7.3.0(@types/node@22.19.3)(jiti@2.6.1)(lightningcss@1.32.0)(tsx@4.21.0)(yaml@2.8.2))
+      '@types/node':
+        specifier: ^22
+        version: 22.19.3
+      '@types/react':
+        specifier: ^19.1.13
+        version: 19.2.7
+      '@types/react-dom':
+        specifier: ^19.1.9
+        version: 19.2.3(@types/react@19.2.7)
+      tailwindcss:
+        specifier: ^4.1.13
+        version: 4.2.2
+      typescript:
+        specifier: ^5.9.2
+        version: 5.9.3
+      vite:
+        specifier: ^7.1.7
+        version: 7.3.0(@types/node@22.19.3)(jiti@2.6.1)(lightningcss@1.32.0)(tsx@4.21.0)(yaml@2.8.2)
+      vite-tsconfig-paths:
+        specifier: ^5.1.4
+        version: 5.1.4(typescript@5.9.3)(vite@7.3.0(@types/node@22.19.3)(jiti@2.6.1)(lightningcss@1.32.0)(tsx@4.21.0)(yaml@2.8.2))
+      wrangler:
+        specifier: ^4.81.1
+        version: 4.81.1
+
   apps/gallery:
     dependencies:
       '@headlessui/react':
@@ -66,6 +127,12 @@ importers:
       '@heroicons/react':
         specifier: ^2.2.0
         version: 2.2.0(react@19.2.3)
+      '@workspace/auth':
+        specifier: workspace:*
+        version: link:../../packages/auth
+      '@workspace/dbDrizzle':
+        specifier: workspace:*
+        version: file:packages/dbDrizzle(@opentelemetry/api@1.9.1)(drizzle-kit@0.31.10)(kysely@0.28.15)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       clsx:
         specifier: ^2.1.1
         version: 2.1.1

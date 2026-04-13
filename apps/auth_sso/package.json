@@ -1,5 +1,5 @@
 {
-  "name": "admin",
+  "name": "@clawfeehouse/auth_sso",
   "private": true,
   "type": "module",
   "scripts": {

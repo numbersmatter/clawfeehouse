@@ -2,6 +2,8 @@ import { createRequestHandler } from "react-router";
 import {
   createAuth,
   getSession,
+  handleAuthRequest,
+  isAuthRoute,
   type AuthInstance,
 } from "@workspace/auth/server";
 import { createDb } from "@workspace/dbDrizzle/src/db";
@@ -12,25 +14,6 @@ interface AppSession {
     email?: string;
     role?: string;
   };
-}
-
-function isProtectedPath(pathname: string): boolean {
-  return pathname === "/private";
-}
-
-function createAuthRedirect(
-  request: Request,
-  authHost: string,
-): Response {
-  const signInUrl = new URL("/sign-in", authHost);
-
-  signInUrl.searchParams.set("app", "gallery");
-  signInUrl.searchParams.set(
-    "redirectTo",
-    new URL("/private", request.url).toString(),
-  );
-
-  return Response.redirect(signInUrl.toString(), 302);
 }
 
 declare module "react-router" {
@@ -53,23 +36,15 @@ export default {
   async fetch(request, env, ctx) {
     const db = createDb(env.db_clawfeehouse);
     const auth = createAuth(db, env);
-    const url = new URL(request.url);
 
-    let session: AppSession | null = null;
-
-    if (isProtectedPath(url.pathname)) {
-      session = (await getSession(
-        auth,
-        request,
-      )) as AppSession | null;
-
-      if (!session) {
-        return createAuthRedirect(
-          request,
-          env.AUTH_SSO_URL,
-        );
-      }
+    if (isAuthRoute(request)) {
+      return handleAuthRequest(auth, request);
     }
+
+    const session = (await getSession(
+      auth,
+      request,
+    )) as AppSession | null;
 
     return requestHandler(request, {
       cloudflare: { env, ctx },

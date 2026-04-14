@@ -8,6 +8,27 @@
       "when": 1775765331579,
       "tag": "0000_sturdy_stephen_strange",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1776187359980,
+      "tag": "0001_legal_bulldozer",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1776187731162,
+      "tag": "0002_fantastic_secret_warriors",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1776188020732,
+      "tag": "0003_absurd_vertigo",
+      "breakpoints": true
     }
   ]
 }

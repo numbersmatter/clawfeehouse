@@ -35,7 +35,21 @@ const requestHandler = createRequestHandler(
 export default {
   async fetch(request, env, ctx) {
     const db = createDb(env.db_clawfeehouse);
-    const auth = createAuth(db, env);
+    const requestUrl = new URL(request.url);
+    const isLocalHostRequest =
+      requestUrl.hostname === "localhost" ||
+      requestUrl.hostname === "127.0.0.1";
+
+    const auth = createAuth(
+      db,
+      isLocalHostRequest
+        ? {
+            ...env,
+            BETTER_AUTH_URL: requestUrl.origin,
+            AUTH_COOKIE_DOMAIN: undefined,
+          }
+        : env,
+    );
 
     if (isAuthRoute(request)) {
       return handleAuthRequest(auth, request);

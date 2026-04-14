@@ -40,7 +40,7 @@ export function createAuth(
     basePath: "/api/auth",
     trustedOrigins,
     advanced: {
-      useSecureCookies: true,
+      useSecureCookies: !isLocalHost,
       crossSubDomainCookies: {
         enabled: Boolean(cookieDomain),
         domain: cookieDomain,

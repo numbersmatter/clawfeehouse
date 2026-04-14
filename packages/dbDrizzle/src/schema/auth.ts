@@ -5,7 +5,6 @@ import {
   text,
 } from "drizzle-orm/sqlite-core";
 import {
-  autoIncrementId,
   createdAt,
   timestamp,
   updatedAt,
@@ -14,8 +13,8 @@ import {
 export const sessions = sqliteTable(
   "sessions",
   {
-    id: autoIncrementId("id"),
-    userId: integer("userId")
+    id: text("id").primaryKey(),
+    userId: text("userId")
       .notNull()
       .references(() => users.id, { onDelete: "cascade" }),
     token: text("token").notNull().unique(),
@@ -33,10 +32,10 @@ export const sessions = sqliteTable(
 export const accounts = sqliteTable(
   "accounts",
   {
-    id: autoIncrementId("id"),
+    id: text("id").primaryKey(),
     accountId: text("accountId").notNull(),
     providerId: text("providerId").notNull(),
-    userId: integer("userId")
+    userId: text("userId")
       .notNull()
       .references(() => users.id, { onDelete: "cascade" }),
     accessToken: text("accessToken"),
@@ -59,7 +58,7 @@ export const accounts = sqliteTable(
 export const verifications = sqliteTable(
   "verifications",
   {
-    id: autoIncrementId("id"),
+    id: text("id").primaryKey(),
     identifier: text("identifier").notNull(),
     value: text("value").notNull(),
     expiresAt: timestamp("expiresAt").notNull(),
@@ -75,9 +74,15 @@ export const verifications = sqliteTable(
 
 // Table
 export const usersTable = sqliteTable("users", {
-  id: autoIncrementId("id"),
+  id: text("id").primaryKey(),
   name: text("name").notNull(),
   email: text("email").notNull().unique(),
+  role: text("role").notNull().default("user"),
+  banned: integer("banned", { mode: "boolean" })
+    .notNull()
+    .default(false),
+  banReason: text("banReason"),
+  banExpires: timestamp("banExpires"),
   emailVerified: integer("emailVerified", {
     mode: "boolean",
   })

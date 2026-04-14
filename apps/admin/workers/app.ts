@@ -1,12 +1,19 @@
 import { createRequestHandler } from "react-router";
 import {
   createAuth,
-  getSession,
   type AuthInstance,
 } from "@workspace/auth/server";
 import { createDb } from "@workspace/dbDrizzle/src/db";
 
 interface AppSession {
+  user?: {
+    id?: string;
+    email?: string;
+    role?: string;
+  };
+}
+
+interface AuthSessionResponse {
   user?: {
     id?: string;
     email?: string;
@@ -56,6 +63,49 @@ function createAuthRedirect(
   return Response.redirect(signInUrl.toString(), 302);
 }
 
+async function getSessionFromAuthHost(
+  request: Request,
+  authHost: string,
+): Promise<AppSession | null> {
+  const requestUrl = new URL(request.url);
+  const sessionUrl = new URL(
+    "/api/auth/get-session",
+    authHost,
+  );
+  const response = await fetch(sessionUrl, {
+    method: "GET",
+    headers: {
+      cookie: request.headers.get("cookie") ?? "",
+      origin: requestUrl.origin,
+      referer: request.url,
+      "x-forwarded-host": requestUrl.host,
+      "x-forwarded-proto": requestUrl.protocol.replace(
+        ":",
+        "",
+      ),
+    },
+  });
+
+  if (!response.ok) {
+    return null;
+  }
+
+  const data =
+    (await response.json()) as AuthSessionResponse;
+
+  if (!data?.user?.id) {
+    return null;
+  }
+
+  return {
+    user: {
+      id: data.user.id,
+      email: data.user.email,
+      role: data.user.role,
+    },
+  };
+}
+
 declare module "react-router" {
   export interface AppLoadContext {
     cloudflare: {
@@ -81,10 +131,10 @@ export default {
     let session: AppSession | null = null;
 
     if (!isPublicPath(url.pathname)) {
-      session = (await getSession(
-        auth,
+      session = await getSessionFromAuthHost(
         request,
-      )) as AppSession | null;
+        resolveAuthHost(request, env.AUTH_SSO_URL),
+      );
 
       if (!session) {
         return createAuthRedirect(

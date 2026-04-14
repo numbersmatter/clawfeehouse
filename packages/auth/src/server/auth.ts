@@ -22,6 +22,12 @@ export function createAuth(
   const trustedOrigins = getTrustedOrigins(env);
   const adminUserIds = getAdminUserIds(env);
   const oauthProviders = getOAuthProviderConfig(env);
+  const baseHost = new URL(env.BETTER_AUTH_URL).hostname;
+  const isLocalHost =
+    baseHost === "localhost" || baseHost === "127.0.0.1";
+  const cookieDomain = isLocalHost
+    ? undefined
+    : env.AUTH_COOKIE_DOMAIN;
 
   return betterAuth({
     database: drizzleAdapter(db, {
@@ -36,8 +42,8 @@ export function createAuth(
     advanced: {
       useSecureCookies: true,
       crossSubDomainCookies: {
-        enabled: Boolean(env.AUTH_COOKIE_DOMAIN),
-        domain: env.AUTH_COOKIE_DOMAIN,
+        enabled: Boolean(cookieDomain),
+        domain: cookieDomain,
       },
       disableCSRFCheck: false,
       disableOriginCheck: false,

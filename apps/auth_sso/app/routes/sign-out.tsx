@@ -4,6 +4,7 @@ import type { Route } from "./+types/sign-out";
 import { getSafeRedirectTo } from "~/utils/redirect";
 
 export async function action({ request, context }: Route.ActionArgs) {
+  const requestUrl = new URL(request.url);
   const formData = await request.formData();
   const app = String(formData.get("app") ?? "admin");
   const redirectTo = String(formData.get("redirectTo") ?? "");
@@ -18,6 +19,10 @@ export async function action({ request, context }: Route.ActionArgs) {
     headers: {
       "content-type": "application/json",
       cookie: request.headers.get("cookie") ?? "",
+      origin: requestUrl.origin,
+      referer: request.url,
+      "x-forwarded-host": requestUrl.host,
+      "x-forwarded-proto": requestUrl.protocol.replace(":", ""),
     },
   });
 

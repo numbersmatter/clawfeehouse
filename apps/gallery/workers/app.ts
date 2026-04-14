@@ -34,6 +34,15 @@ function isProtectedPath(pathname: string): boolean {
   return pathname === "/private";
 }
 
+function isAuthPath(pathname: string): boolean {
+  return (
+    pathname === "/sign-in" ||
+    pathname === "/sign-up" ||
+    pathname === "/callback" ||
+    pathname === "/sign-out"
+  );
+}
+
 function createAuthRedirect(
   request: Request,
   authHost: string,
@@ -70,6 +79,17 @@ export default {
     const db = createDb(env.db_clawfeehouse);
     const auth = createAuth(db, env);
     const url = new URL(request.url);
+    const authHost = resolveAuthHost(
+      request,
+      env.AUTH_SSO_URL,
+    );
+
+    if (isAuthPath(url.pathname)) {
+      const redirectUrl = new URL(url.pathname, authHost);
+      redirectUrl.search = url.search;
+
+      return Response.redirect(redirectUrl.toString(), 302);
+    }
 
     let session: AppSession | null = null;
 
@@ -80,10 +100,7 @@ export default {
       )) as AppSession | null;
 
       if (!session) {
-        return createAuthRedirect(
-          request,
-          resolveAuthHost(request, env.AUTH_SSO_URL),
-        );
+        return createAuthRedirect(request, authHost);
       }
     }
 

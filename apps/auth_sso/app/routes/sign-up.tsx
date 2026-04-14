@@ -38,6 +38,7 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 }
 
 export async function action({ request, context }: Route.ActionArgs) {
+  const requestUrl = new URL(request.url);
   const formData = await request.formData();
   const name = String(formData.get("name") ?? "").trim();
   const email = String(formData.get("email") ?? "").trim();
@@ -68,6 +69,10 @@ export async function action({ request, context }: Route.ActionArgs) {
     headers: {
       "content-type": "application/json",
       cookie: request.headers.get("cookie") ?? "",
+      origin: requestUrl.origin,
+      referer: request.url,
+      "x-forwarded-host": requestUrl.host,
+      "x-forwarded-proto": requestUrl.protocol.replace(":", ""),
     },
     body: JSON.stringify({
       name,

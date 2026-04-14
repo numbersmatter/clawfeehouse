@@ -2,6 +2,9 @@ const DEFAULT_TRUSTED_ORIGINS = [
   "https://auth.clawfeehouse.com",
   "https://admin.clawfeehouse.com",
   "https://gallery.clawfeehouse.com",
+  "http://localhost:5175",
+  "http://localhost:5173",
+  "http://localhost:5174",
 ] as const;
 
 export interface AuthEnvironment {

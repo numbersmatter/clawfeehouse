@@ -25,6 +25,42 @@ pnpm install
 
 This package uses `LOCAL_DB_PATH` with Drizzle Kit to migrate and inspect a persisted local SQLite file.
 
+## Shared Local D1 Runtime State (All Apps)
+
+All app dev servers now use one shared Cloudflare local D1 state directory:
+
+- `packages/dbDrizzle/data/wrangler-state/v3/d1/*.sqlite`
+
+This keeps `auth_sso`, `admin`, and `gallery` on the same local D1 state during development.
+
+Important distinction:
+
+- Drizzle Kit local migration target: `packages/dbDrizzle/data/development.sqlite`
+- App runtime local D1 state (Wrangler/Miniflare): `packages/dbDrizzle/data/wrangler-state/v3/d1/*.sqlite`
+
+### Root helper commands
+
+From repository root:
+
+```sh
+pnpm run db:shared:sync
+pnpm run db:shared:prepare
+pnpm run db:shared:migrate
+pnpm run dev:apps:with-db
+```
+
+Reset shared app runtime D1 state:
+
+```sh
+pnpm run db:shared:reset
+```
+
+Where:
+
+- `db:shared:prepare` migrates `packages/dbDrizzle/data/development.sqlite` using Drizzle Kit.
+- `db:shared:migrate` applies SQL migrations to Wrangler's shared local D1 state.
+- `db:shared:sync` runs both in order.
+
 ### 1. Generate migration files from schema changes
 
 From repository root:
@@ -109,6 +145,13 @@ After editing schema files:
 pnpm --filter @workspace/dbDrizzle run db:generate
 pnpm --filter @workspace/dbDrizzle run db:migrate:local
 pnpm --filter @workspace/dbDrizzle run db:studio
+```
+
+To run multiple apps with a shared local D1 runtime:
+
+```sh
+pnpm run db:shared:prepare
+pnpm run dev:apps
 ```
 
 When ready to deploy schema changes:

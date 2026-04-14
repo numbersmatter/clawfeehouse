@@ -28,6 +28,7 @@ pnpm-debug.log*
 # Cloudflare
 .wrangler
 .dev.vars
+packages/dbDrizzle/data/wrangler-state/
 
 # Testing
 coverage

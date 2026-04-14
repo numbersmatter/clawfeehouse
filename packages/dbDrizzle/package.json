@@ -8,6 +8,8 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:migrate:local": "LOCAL_DB_PATH=./data/development.sqlite drizzle-kit migrate",
+    "db:d1:shared:migrate": "wrangler d1 migrations apply db_clawfeehouse --local --persist-to ./data/wrangler-state --config wrangler.jsonc",
+    "db:d1:shared:reset": "rm -rf ./data/wrangler-state/v3",
     "db:studio": "LOCAL_DB_PATH=./data/development.sqlite drizzle-kit studio",
     "db:local": "pnpm run db:generate && pnpm run db:migrate:local && pnpm run db:studio",
     "build": "tsc",

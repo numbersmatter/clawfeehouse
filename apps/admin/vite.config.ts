@@ -11,7 +11,12 @@ export default defineConfig({
     strictPort: true,
   },
   plugins: [
-    cloudflare({ viteEnvironment: { name: "ssr" } }),
+    cloudflare({
+      viteEnvironment: { name: "ssr" },
+      persistState: {
+        path: "../../packages/dbDrizzle/data/wrangler-state",
+      },
+    }),
     tailwindcss(),
     reactRouter(),
     tsconfigPaths(),

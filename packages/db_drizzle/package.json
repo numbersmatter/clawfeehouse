@@ -1,5 +1,5 @@
 {
-  "name": "@workspace/dbDrizzle",
+  "name": "@workspace/db_drizzle",
   "version": "1.0.0",
   "description": "Database schema and utilities using Drizzle ORM with Cloudflare D1.",
   "main": "dist/index.js",

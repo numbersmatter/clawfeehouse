@@ -14,7 +14,7 @@ export default defineConfig({
     cloudflare({
       viteEnvironment: { name: "ssr" },
       persistState: {
-        path: "../../packages/dbDrizzle/data/wrangler-state",
+        path: "../../packages/db_drizzle/data/wrangler-state",
       },
     }),
     tailwindcss(),

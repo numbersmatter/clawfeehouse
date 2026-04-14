@@ -3,7 +3,7 @@ import {
   createAuth,
   type AuthInstance,
 } from "@workspace/auth/server";
-import { createDb } from "@workspace/dbDrizzle/src/db";
+import { createDb } from "@workspace/db_drizzle/src/db";
 
 interface AppSession {
   user?: {
@@ -77,7 +77,8 @@ async function getSessionFromAuthHost(
     return null;
   }
 
-  const data = (await response.json()) as AuthSessionResponse;
+  const data =
+    (await response.json()) as AuthSessionResponse;
 
   if (!data?.user?.id) {
     return null;

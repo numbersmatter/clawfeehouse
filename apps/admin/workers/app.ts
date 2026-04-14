@@ -3,7 +3,7 @@ import {
   createAuth,
   type AuthInstance,
 } from "@workspace/auth/server";
-import { createDb } from "@workspace/dbDrizzle/src/db";
+import { createDb } from "@workspace/db_drizzle/src/db";
 
 interface AppSession {
   user?: {

@@ -1,10 +1,10 @@
-# dbDrizzle
+# db_drizzle
 
 Shared database package for schema and migrations using Drizzle ORM with SQLite/D1-compatible SQL.
 
 ## Location
 
-- Package path: `packages/dbDrizzle`
+- Package path: `packages/db_drizzle`
 - Schema: `src/schema/*.ts`
 - Drizzle config: `drizzle.config.ts`
 - Migrations output: `migrations/`
@@ -29,14 +29,14 @@ This package uses `LOCAL_DB_PATH` with Drizzle Kit to migrate and inspect a pers
 
 All app dev servers now use one shared Cloudflare local D1 state directory:
 
-- `packages/dbDrizzle/data/wrangler-state/v3/d1/*.sqlite`
+- `packages/db_drizzle/data/wrangler-state/v3/d1/*.sqlite`
 
 This keeps `auth_sso`, `admin`, and `gallery` on the same local D1 state during development.
 
 Important distinction:
 
-- Drizzle Kit local migration target: `packages/dbDrizzle/data/development.sqlite`
-- App runtime local D1 state (Wrangler/Miniflare): `packages/dbDrizzle/data/wrangler-state/v3/d1/*.sqlite`
+- Drizzle Kit local migration target: `packages/db_drizzle/data/development.sqlite`
+- App runtime local D1 state (Wrangler/Miniflare): `packages/db_drizzle/data/wrangler-state/v3/d1/*.sqlite`
 
 ### Root helper commands
 
@@ -57,7 +57,7 @@ pnpm run db:shared:reset
 
 Where:
 
-- `db:shared:prepare` migrates `packages/dbDrizzle/data/development.sqlite` using Drizzle Kit.
+- `db:shared:prepare` migrates `packages/db_drizzle/data/development.sqlite` using Drizzle Kit.
 - `db:shared:migrate` applies SQL migrations to Wrangler's shared local D1 state.
 - `db:shared:sync` runs both in order.
 
@@ -66,10 +66,10 @@ Where:
 From repository root:
 
 ```sh
-pnpm --filter @workspace/dbDrizzle run db:generate
+pnpm --filter @workspace/db_drizzle run db:generate
 ```
 
-Or from `packages/dbDrizzle`:
+Or from `packages/db_drizzle`:
 
 ```sh
 pnpm run db:generate
@@ -80,10 +80,10 @@ pnpm run db:generate
 From repository root:
 
 ```sh
-pnpm --filter @workspace/dbDrizzle run db:migrate:local
+pnpm --filter @workspace/db_drizzle run db:migrate:local
 ```
 
-Or from `packages/dbDrizzle`:
+Or from `packages/db_drizzle`:
 
 ```sh
 pnpm run db:migrate:local
@@ -91,17 +91,17 @@ pnpm run db:migrate:local
 
 This applies migrations into:
 
-- `packages/dbDrizzle/data/development.sqlite`
+- `packages/db_drizzle/data/development.sqlite`
 
 ### 3. Open Drizzle Studio for local DB inspection
 
 From repository root:
 
 ```sh
-pnpm --filter @workspace/dbDrizzle run db:studio
+pnpm --filter @workspace/db_drizzle run db:studio
 ```
 
-Or from `packages/dbDrizzle`:
+Or from `packages/db_drizzle`:
 
 ```sh
 pnpm run db:studio
@@ -114,12 +114,12 @@ Drizzle generates SQL migrations. Wrangler applies those migrations to the remot
 ### 1. Generate migrations (if schema changed)
 
 ```sh
-pnpm --filter @workspace/dbDrizzle run db:generate
+pnpm --filter @workspace/db_drizzle run db:generate
 ```
 
 ### 2. Apply migrations to remote D1
 
-Run from `packages/dbDrizzle`:
+Run from `packages/db_drizzle`:
 
 ```sh
 pnpm exec wrangler d1 migrations apply db_clawfeehouse --remote --config wrangler.jsonc
@@ -128,13 +128,13 @@ pnpm exec wrangler d1 migrations apply db_clawfeehouse --remote --config wrangle
 Equivalent command from repository root:
 
 ```sh
-pnpm --filter @workspace/dbDrizzle exec wrangler d1 migrations apply db_clawfeehouse --remote --config wrangler.jsonc
+pnpm --filter @workspace/db_drizzle exec wrangler d1 migrations apply db_clawfeehouse --remote --config wrangler.jsonc
 ```
 
 ### 3. (Optional) Apply migrations to local D1 preview DB managed by Wrangler
 
 ```sh
-pnpm --filter @workspace/dbDrizzle exec wrangler d1 migrations apply db_clawfeehouse --local --config wrangler.jsonc
+pnpm --filter @workspace/db_drizzle exec wrangler d1 migrations apply db_clawfeehouse --local --config wrangler.jsonc
 ```
 
 ## Common Workflow
@@ -142,9 +142,9 @@ pnpm --filter @workspace/dbDrizzle exec wrangler d1 migrations apply db_clawfeeh
 After editing schema files:
 
 ```sh
-pnpm --filter @workspace/dbDrizzle run db:generate
-pnpm --filter @workspace/dbDrizzle run db:migrate:local
-pnpm --filter @workspace/dbDrizzle run db:studio
+pnpm --filter @workspace/db_drizzle run db:generate
+pnpm --filter @workspace/db_drizzle run db:migrate:local
+pnpm --filter @workspace/db_drizzle run db:studio
 ```
 
 To run multiple apps with a shared local D1 runtime:
@@ -157,7 +157,7 @@ pnpm run dev:apps
 When ready to deploy schema changes:
 
 ```sh
-pnpm --filter @workspace/dbDrizzle exec wrangler d1 migrations apply db_clawfeehouse --remote --config wrangler.jsonc
+pnpm --filter @workspace/db_drizzle exec wrangler d1 migrations apply db_clawfeehouse --remote --config wrangler.jsonc
 ```
 
 ## Troubleshooting
@@ -173,5 +173,5 @@ pnpm install --force
 Then retry:
 
 ```sh
-pnpm --filter @workspace/dbDrizzle run db:migrate:local
+pnpm --filter @workspace/db_drizzle run db:migrate:local
 ```

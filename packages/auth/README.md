@@ -6,7 +6,7 @@ This package is intended to be consumed by both admin and gallery apps, with aut
 
 ## What this package provides
 
-- Better Auth server initializer using `@workspace/dbDrizzle`.
+- Better Auth server initializer using `@workspace/db_drizzle`.
 - Better Auth admin plugin enabled for role-aware admin access.
 - Email/password auth + password reset hooks.
 - Google + Discord OAuth provider scaffolding.
@@ -39,7 +39,7 @@ Default trusted origins include:
 ## Usage from a Worker
 
 ```ts
-import { createDb } from "@workspace/dbDrizzle/src/db";
+import { createDb } from "@workspace/db_drizzle/src/db";
 import {
   createAuth,
   handleAuthRequest,

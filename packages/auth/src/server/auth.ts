@@ -1,5 +1,5 @@
-import type { Db } from "@workspace/dbDrizzle/src/db";
-import { schema } from "@workspace/dbDrizzle/src/db";
+import type { Db } from "@workspace/db_drizzle/src/db";
+import { schema } from "@workspace/db_drizzle/src/db";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { betterAuth } from "better-auth";
 import { admin } from "better-auth/plugins/admin";

@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@workspace/auth": "workspace:*",
-    "@workspace/dbDrizzle": "workspace:*",
+    "@workspace/db_drizzle": "workspace:*",
     "@headlessui/react": "^2.2.9",
     "@heroicons/react": "^2.2.0",
     "clsx": "^2.1.1",

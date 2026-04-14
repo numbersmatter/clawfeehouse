@@ -12,7 +12,7 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@workspace/dbDrizzle": "workspace:*",
+    "@workspace/db_drizzle": "workspace:*",
     "better-auth": "^1.6.2"
   },
   "devDependencies": {

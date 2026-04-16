@@ -13,6 +13,7 @@ export default defineConfig({
   plugins: [
     cloudflare({
       viteEnvironment: { name: "ssr" },
+      inspectorPort: 9331,
       persistState: {
         path: "../../packages/db_drizzle/data/wrangler-state",
       },

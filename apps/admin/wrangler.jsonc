@@ -11,7 +11,6 @@
     "VALUE_FROM_CLOUDFLARE": "Hello from Cloudflare",
     "AUTH_SSO_URL": "https://auth.clawfeehouse.com",
     "BETTER_AUTH_URL": "https://auth.clawfeehouse.com",
-    "BETTER_AUTH_SECRET": "CHANGE_ME_IN_PRODUCTION",
     "BETTER_AUTH_TRUSTED_ORIGINS": "https://admin.clawfeehouse.com,https://gallery.clawfeehouse.com",
     "AUTH_COOKIE_DOMAIN": ".clawfeehouse.com",
   },
@@ -37,6 +36,13 @@
       "database_name": "db_clawfeehouse",
       "database_id": "4f1bbeed-5918-4c7c-9372-4642bb7ff4f4",
       "preview_database_id": "test-db",
+    },
+  ],
+  "routes": [
+    {
+      "pattern": "admin.clawfeehouse.com",
+      "zone_name": "clawfeehouse.com",
+      "custom_domain": true,
     },
   ],
   /**

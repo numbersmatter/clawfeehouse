@@ -1,9 +1,9 @@
 packages:
   - packages/*
   - apps/*
-
-onlyBuiltDependencies:
-  - better-sqlite3
-  - esbuild
-  - sharp
-  - workerd
+injectWorkspacePackages: true
+allowBuilds:
+  better-sqlite3: true
+  esbuild: true
+  sharp: true
+  workerd: true

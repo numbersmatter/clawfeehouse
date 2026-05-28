@@ -6,9 +6,12 @@
   "files": [
     "base.json",
     "react-library.json",
-    "react-router.json"
+    "react-router.json",
+    "react-router-app.json",
+    "react-router-cloudflare.json",
+    "react-router-node.json"
   ],
   "devDependencies": {
-    "typescript": "^5.8.3"
+    "typescript": "6.0.3"
   }
 }

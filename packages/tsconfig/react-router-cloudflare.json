@@ -1,0 +1,9 @@
+{
+  "extends": "./react-router-app.json",
+  "compilerOptions": {
+    "composite": true,
+    "types": ["vite/client"],
+    "module": "ES2022",
+    "rootDirs": [".", "./.react-router/types"]
+  }
+}

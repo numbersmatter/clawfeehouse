@@ -1,6 +1,7 @@
 {
   "extends": "../../packages/tsconfig/react-library.json",
   "compilerOptions": {
+    "ignoreDeprecations": "6.0",
     "baseUrl": ".",
     "outDir": "./dist",
     "paths": {

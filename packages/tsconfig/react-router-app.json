@@ -1,0 +1,7 @@
+{
+  "extends": "./react-router.json",
+  "compilerOptions": {
+    "checkJs": true,
+    "noEmit": true
+  }
+}

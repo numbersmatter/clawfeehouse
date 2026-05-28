@@ -10,6 +10,18 @@ export default defineConfig({
     port: 5176,
     strictPort: true,
   },
+  ssr: {
+    optimizeDeps: {
+      noDiscovery: false,
+      include: [
+        "react",
+        "react/jsx-runtime",
+        "react/jsx-dev-runtime",
+        "react-dom",
+        "react-dom/server",
+      ],
+    },
+  },
   plugins: [
     cloudflare({
       viteEnvironment: { name: "ssr" },

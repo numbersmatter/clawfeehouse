@@ -1,0 +1,19 @@
+@import "@workspace/ui/globals.css";
+
+@theme {
+  --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Fraunces", ui-serif, Georgia, serif;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  @apply text-foreground;
+  background:
+    radial-gradient(circle at 18% 18%, color-mix(in oklab, #f4c69f 35%, transparent) 0%, transparent 40%),
+    radial-gradient(circle at 85% 5%, color-mix(in oklab, #9bc7d9 25%, transparent) 0%, transparent 38%),
+    linear-gradient(180deg, #fff9f2 0%, #fbf7f3 55%, #f2eee9 100%);
+}

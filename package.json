@@ -11,7 +11,8 @@
     "dev:auth_sso": "pnpm -F @clawfeehouse/auth_sso run dev",
     "dev:admin": "pnpm -F admin run dev",
     "dev:gallery": "pnpm -F @clawfeehouse/gallery run dev",
-    "dev:apps": "pnpm --parallel --stream --filter @clawfeehouse/auth_sso --filter admin --filter @clawfeehouse/gallery run dev",
+    "dev:store": "pnpm -F @clawfeehouse/store run dev",
+    "dev:apps": "pnpm --parallel --stream --filter @clawfeehouse/auth_sso --filter admin --filter @clawfeehouse/gallery --filter @clawfeehouse/store run dev",
     "dev:apps:with-db": "pnpm run db:shared:sync && pnpm run dev:apps",
     "gallery:build": "pnpm -F gallery build",
     "studio:local": "pnpm -F studio run dev"

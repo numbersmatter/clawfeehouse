@@ -1,26 +1,54 @@
 # Welcome to React Router!
 
-A modern, production-ready template for building full-stack React applications using React Router.
+## Setup
+Used the create React Router command with template
 
-## Features
+```bash
+pnpm create react-router@latest --template remix-run/react-router-templates/cloudflare
+# dir
+./apps/starter
+# init git
+No
+# Install PNPM
+No
+```
 
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
+## Scope to Repo
+Change the app name in package.json to scoped to the namespace: @clawfeehouse/starter.
+
+Modify vite.config.ts to set the server port and inspector port.
+
+```jsonc
+server:{
+    host: "localhost",
+    port: 5180,
+    strictPort: true,
+},
+// Plugins 
+cloudflare({
+    inspectorPort: 9335,
+})
+```
+
+Your application will be available at `http://localhost:5180`. With the inspector on port 9335.
+
+
+Change the files for:
+- tsconfig.json
+- tsconfig.cloudflare.json
+- tsconfig.node.json
+
+
+
+
+
+
 
 ## Getting Started
 
 ### Installation
 
-Install the dependencies:
-
-```bash
-npm install
-```
+I
 
 ### Development
 
@@ -30,7 +58,6 @@ Start the development server with HMR:
 npm run dev
 ```
 
-Your application will be available at `http://localhost:5173`.
 
 ## Previewing the Production Build
 
@@ -69,10 +96,6 @@ You can then promote a version to production after verification or roll it out p
 ```sh
 npx wrangler versions deploy
 ```
-
-## Styling
-
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
 
 ---
 

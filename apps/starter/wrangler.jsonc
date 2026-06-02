@@ -6,4 +6,8 @@
   "vars": {
     "VALUE_FROM_CLOUDFLARE": "Starter App",
   },
+  // declare secret names here. Only keys listed will be loaded.
+  "secrets":{
+    "required":[],
+  }
 }

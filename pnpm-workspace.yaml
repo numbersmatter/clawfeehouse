@@ -9,3 +9,8 @@ allowBuilds:
   esbuild: true
   sharp: true
   workerd: true
+#per-project
+minimumReleaseAge: 10080 # 7 days
+blockExoticSubdeps: true
+trustPolicy: no-downgrade
+

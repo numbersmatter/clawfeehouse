@@ -3,7 +3,6 @@ import { schema } from "@workspace/db_drizzle/src/db";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { betterAuth } from "better-auth";
 import { admin } from "better-auth/plugins/admin";
-import { dash } from "@better-auth/infra";
 
 import {
   getAdminUserIds,
@@ -78,7 +77,7 @@ export function createAuth(
         adminRoles: ["admin"],
         adminUserIds,
       }),
-      dash(),
+     
     ],
   });
 }

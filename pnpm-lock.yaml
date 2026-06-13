@@ -141,6 +141,9 @@ importers:
       '@workspace/db_drizzle':
         specifier: workspace:*
         version: file:packages/db_drizzle(@cloudflare/workers-types@4.20260530.1)(drizzle-kit@0.31.10)(kysely@0.28.17)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(vitest@4.1.8(@types/node@24.12.4)(vite@7.3.3(@types/node@24.12.4)(jiti@2.7.0)(lightningcss@1.32.0)(tsx@4.22.3)))
+      '@workspace/sonic-types':
+        specifier: workspace:*
+        version: link:../../packages/sonic-types
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
@@ -369,6 +372,12 @@ importers:
       wrangler:
         specifier: ^4.20.2
         version: 4.95.0(@cloudflare/workers-types@4.20260530.1)
+
+  packages/sonic-types:
+    devDependencies:
+      typescript:
+        specifier: 6.0.3
+        version: 6.0.3
 
   packages/tsconfig:
     devDependencies:

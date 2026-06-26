@@ -8,6 +8,8 @@ overrides:
   tinyexec: 1.2.4
   vitest: 4.1.8
   semver: 7.8.1
+  react: 19.2.7
+  "react-dom": 19.2.7
 injectWorkspacePackages: true
 allowBuilds:
   better-sqlite3: true

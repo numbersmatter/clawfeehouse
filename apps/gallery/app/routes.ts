@@ -11,6 +11,7 @@ export default [
     route("view/:viewId", "routes/image_id.tsx"),
     route("private", "routes/private.tsx"),
     route("blog", "routes/blog_list.tsx"),
+    route("blog2", "routes/blog_payload.tsx"),
   ]),
   layout("routes/main_gallery.tsx", [
     route("test", "routes/gallery.tsx"),

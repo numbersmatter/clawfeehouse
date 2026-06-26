@@ -1,26 +1,20 @@
-import type { Route } from "./+types/blog_list"
-import type {
-  BlogPostCard,
-  BlogPostsContentResponse,
-} from "@workspace/sonic-types"
+import type { Route } from "./+types/blog_payload"
+
+
+type BlogPostCard = {
+  title: string
+  href: string
+  imageUrl: string
+  date: string
+  datetime: string
+  author: {
+    name: string
+    imageUrl: string
+  }
+}
+
 
 export async function loader({ context }: Route.LoaderArgs) {
-  const response = await fetch(
-    "http://localhost:8787/api/collections/blog-posts/content?limit=25"
-  )
-
-  if (!response.ok) {
-    throw new Response("Failed to load blog posts", { status: response.status })
-  }
-
-
-  try {
-  const req = await fetch('http://localhost:3000/api/artwork')
-  const data = await req.json()
-  console.log("Artwork data:", data)
-} catch (err) {
-  console.log(err)
-}
 
   const payload = await fetch(
     "http://localhost:3000/api/artwork"
@@ -32,38 +26,34 @@ export async function loader({ context }: Route.LoaderArgs) {
 
   const artworkJson = await payload.json()
 
-  const responseJson = await response.json()
+  const baseUrl = "http://localhost:3000"
 
-  const content = responseJson as BlogPostsContentResponse
-
-  const posts: BlogPostCard[] = content.data.map((post) => {
-    const imageUrl =  "https://images.unsplash.com/photo-1492724441997-5dc865305da7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHx8fGVufDB8fHx8&auto=format&fit=crop&w=3270&q=80"
-     
+  const posts: BlogPostCard[] = artworkJson.docs.map((artwork: any) => {
     return {
-      title: post.title,
-      href: `/blog/${post.slug}`,
-      description: post.excerpt ?? "",
-      imageUrl,
-      date: post.publishedAt ? new Date(post.publishedAt).toDateString() : "Draft",
-      datetime: post.publishedAt ?? new Date().toISOString(),
-      author: {
-        name: post.author,
-        imageUrl:
-          "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-      },
+      title: artwork.title,
+      href: `${baseUrl}/api/artwork/${artwork.id}`,
+      imageUrl: `${baseUrl}${artwork.url}`,
+      date: artwork.createdAt ? new Date(artwork.createdAt).toDateString() : "Unknown",
+      datetime: artwork.createdAt ?? new Date().toISOString(),
+      author:{
+        name: artwork.author ?? "Unknown",
+        imageUrl:  "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+      }
     }
   })
 
+
   return {
     posts,
-    artwork: artworkJson,
+    artwork: artworkJson.docs,
     // meta: content.meta,
     // message: context.cloudflare.env.VALUE_FROM_CLOUDFLARE,
   }
 }
 
+
 export default function BlogListRoute({ loaderData }: Route.ComponentProps) {
-  return (
+   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       <BlogItems posts={loaderData.posts} />
       <div>
@@ -74,6 +64,8 @@ export default function BlogListRoute({ loaderData }: Route.ComponentProps) {
     </div>
   )
 }
+
+
 
 function BlogItems({ posts }: { posts: BlogPostCard[] }) {
   return (
@@ -121,7 +113,6 @@ function BlogItems({ posts }: { posts: BlogPostCard[] }) {
                   {post.title}
                 </a>
               </h3>
-              {post.description ? <p className="mt-2 text-sm text-gray-300">{post.description}</p> : null}
             </article>
           ))}
         </div>

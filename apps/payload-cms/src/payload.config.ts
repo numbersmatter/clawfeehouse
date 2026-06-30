@@ -7,12 +7,10 @@ import { fileURLToPath } from 'url'
 import { CloudflareContext, getCloudflareContext } from '@opennextjs/cloudflare'
 import { GetPlatformProxyOptions } from 'wrangler'
 import { r2Storage } from '@payloadcms/storage-r2'
-import { bunnyStorage } from '@seshuk/payload-storage-bunny'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
-import { ArtImage } from './collections/ArtImage'
-import { Tags } from './collections/Tags'
+import migrations from './db/migrations'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -53,36 +51,20 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-   folders:{
-   fieldName: 'folder', // optional
-    slug: 'payload-folders', // optional 
-  },
-  collections: [Users, Media, Tags, ArtImage],
+  collections: [Users, Media],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
-  db: sqliteD1Adapter({ binding: cloudflare.env.D1 }),
+  db: sqliteD1Adapter({
+    binding: cloudflare.env.D1,
+  }),
   logger: isProduction ? cloudflareLogger : undefined,
-  storage: [
+  plugins: [
     r2Storage({
       bucket: cloudflare.env.R2,
       collections: { media: true },
-    }),
-    bunnyStorage({
-      collections: {
-        art: {
-          prefix: 'art-image',
-          disablePayloadAccessControl: true, // Use direct CDN access
-        },
-      },
-      storage: {
-        apiKey: process.env.BUNNY_STORAGE_API_KEY,
-        hostname: process.env.BUNNY_HOSTNAME,
-        region: process.env.BUNNY_STORAGE_REGION,
-        zoneName: process.env.BUNNY_ZONE_NAME,
-      },
     }),
   ],
 })

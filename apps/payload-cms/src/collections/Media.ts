@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 
 export const Media: CollectionConfig = {
   slug: 'media',
+  folders: true,
   access: {
     read: () => true,
   },
@@ -15,6 +16,7 @@ export const Media: CollectionConfig = {
   upload: {
     // These are not supported on Workers yet due to lack of sharp
     crop: false,
+    disableLocalStorage: true,
     focalPoint: false,
   },
 }

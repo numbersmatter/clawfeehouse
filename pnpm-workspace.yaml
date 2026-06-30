@@ -35,7 +35,7 @@ allowBuilds:
   better-sqlite3: true
   esbuild: true
   sharp: true
-  unrs-resolver: set this to true or false
+  unrs-resolver: true
   workerd: true
 #per-project
 minimumReleaseAge: 4320 # 3 days

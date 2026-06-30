@@ -26,18 +26,18 @@
   },
   "dependencies": {
     "@opennextjs/cloudflare": "^1.11.0",
+    "@payloadcms/db-d1-sqlite": "3.85.1",
     "@payloadcms/next": "3.85.1",
     "@payloadcms/richtext-lexical": "3.85.1",
-    "@payloadcms/storage-r2": "3.85.1",
     "@payloadcms/ui": "3.85.1",
+    "@seshuk/payload-storage-bunny": "^2.1.1",
     "cross-env": "^7.0.3",
     "dotenv": "16.4.7",
     "graphql": "^16.8.1",
     "next": "15.4.11",
     "payload": "3.85.1",
     "react": "19.2.1",
-    "react-dom": "19.2.1",
-    "@payloadcms/db-d1-sqlite": "3.85.1"
+    "react-dom": "19.2.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",

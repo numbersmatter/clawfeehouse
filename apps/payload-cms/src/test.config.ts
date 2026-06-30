@@ -6,12 +6,13 @@ import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import { CloudflareContext, getCloudflareContext } from '@opennextjs/cloudflare'
 import { GetPlatformProxyOptions } from 'wrangler'
+import { r2Storage } from '@payloadcms/storage-r2'
 import { bunnyStorage } from '@seshuk/payload-storage-bunny'
-
-
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
+import { Artwork } from './collections/Artwork'
+import { Categories } from './collections/Categories'
 import { ArtImage } from './collections/ArtImage'
 import { Tags } from './collections/Tags'
 
@@ -21,6 +22,9 @@ const realpath = (value: string) => (fs.existsSync(value) ? fs.realpathSync(valu
 
 const isCLI = process.argv.some((value) => realpath(value).endsWith(path.join('payload', 'bin.js')))
 const isProduction = process.env.NODE_ENV === 'production'
+
+const normalizeBunnyHostname = (value?: string) =>
+  value?.replace(/^https?:\/\//, '').replace(/\/$/, '')
 
 const createLog =
   (level: string, fn: typeof console.log) => (objOrMsg: object | string, msg?: string) => {
@@ -54,7 +58,13 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, ArtImage, Tags],
+  folders:{
+   fieldName: 'folder', // optional
+    slug: 'payload-folders', // optional 
+  },
+  collections: [
+    Users, Media, Artwork, Categories, ArtImage, Tags
+  ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
@@ -63,26 +73,26 @@ export default buildConfig({
   db: sqliteD1Adapter({
     binding: cloudflare.env.D1,
   }),
-  logger: cloudflareLogger,
+  logger: isProduction ? cloudflareLogger : undefined,
   plugins: [
-   bunnyStorage({
-        collections: {
-          'art': {
-            prefix: 'art-test2',
-            disablePayloadAccessControl: true, // Use direct CDN access
-          },
-          media: {
-            prefix: 'media-test2',
-            disablePayloadAccessControl: true, // Use direct CDN access
-          },
+    r2Storage({
+      bucket: cloudflare.env.R2,
+      collections: { media: true, artwork: true},
+    }),
+    bunnyStorage({
+      collections: {
+        art: {
+          prefix: 'art',
+          disablePayloadAccessControl: true, // Use direct CDN access
         },
-        storage: {
-          apiKey: process.env.BUNNY_STORAGE_API_KEY,
-          hostname: process.env.BUNNY_HOSTNAME,
-          region: process.env.BUNNY_STORAGE_REGION,
-          zoneName: process.env.BUNNY_ZONE_NAME,
-        },
-      }),
+      },
+      storage: {
+        apiKey: process.env.BUNNY_STORAGE_API_KEY,
+        hostname: process.env.BUNNY_HOSTNAME,
+        region: process.env.BUNNY_STORAGE_REGION,
+        zoneName: process.env.BUNNY_ZONE_NAME,
+      },
+    }),
   ],
 })
 

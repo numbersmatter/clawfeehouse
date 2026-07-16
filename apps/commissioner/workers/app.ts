@@ -1,17 +1,16 @@
-import { createRequestHandler } from "react-router";
+import {
+  createRequestHandler,
+  RouterContextProvider,
+} from "react-router";
 import {
   createAuth,
-  type AuthInstance,
 } from "@workspace/auth/server";
 import { createDb } from "@workspace/db_drizzle/src/db";
-
-interface AppSession {
-  user?: {
-    id?: string;
-    email?: string;
-    role?: string;
-  };
-}
+import {
+  cloudflareContext,
+  sessionContext,
+  type AppSession,
+} from "../app/router-context";
 
 interface AuthSessionResponse {
   user?: {
@@ -116,17 +115,6 @@ async function getSessionFromAuthHost(
   };
 }
 
-declare module "react-router" {
-  export interface AppLoadContext {
-    cloudflare: {
-      env: Env;
-      ctx: ExecutionContext;
-    };
-    auth: AuthInstance;
-    session: AppSession | null;
-  }
-}
-
 const requestHandler = createRequestHandler(
   () => import("virtual:react-router/server-build"),
   import.meta.env.MODE,
@@ -162,10 +150,10 @@ export default {
       }
     }
 
-    return requestHandler(request, {
-      cloudflare: { env, ctx },
-      auth,
-      session,
-    });
+    const context = new RouterContextProvider();
+    context.set(cloudflareContext, { env, ctx });
+    context.set(sessionContext, session);
+
+    return requestHandler(request, context);
   },
 } satisfies ExportedHandler<Env>;

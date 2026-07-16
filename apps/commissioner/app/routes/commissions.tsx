@@ -1,11 +1,7 @@
 import { Link, redirect } from "react-router";
+import { sessionContext } from "../router-context";
 
 import type { Route } from "./+types/commissions";
-
-interface SessionUser {
-  id?: string;
-  email?: string;
-}
 
 interface CommissionSummary {
   id: string;
@@ -45,10 +41,7 @@ function statusLabel(status: CommissionSummary["status"]): string {
 }
 
 export function loader({ request, context }: Route.LoaderArgs) {
-  const appContext = context as {
-    session?: { user?: SessionUser };
-  };
-  const sessionUser = appContext.session?.user;
+  const sessionUser = context.get(sessionContext)?.user;
 
   if (!sessionUser?.id) {
     const signInUrl = new URL("/sign-in", request.url);

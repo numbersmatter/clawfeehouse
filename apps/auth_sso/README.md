@@ -6,6 +6,7 @@ This app owns the shared authentication flow for:
 
 - `https://admin.clawfeehouse.com`
 - `https://gallery.clawfeehouse.com`
+- `https://commissioner.clawfeehouse.com`
 
 ## Getting Started
 
@@ -31,6 +32,7 @@ pnpm --filter @clawfeehouse/auth_sso run dev
 - Redirect authenticated users back to app destinations:
   - admin -> `/dashboard`
   - gallery -> `/private`
+  - commissioner -> `/commissions`
 
 ## Required env vars
 

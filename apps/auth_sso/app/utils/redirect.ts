@@ -1,15 +1,19 @@
 const AUTH_HOST = "https://auth.clawfeehouse.com";
 const ADMIN_ORIGIN = "https://admin.clawfeehouse.com";
 const GALLERY_ORIGIN = "https://gallery.clawfeehouse.com";
+const COMMISSIONER_ORIGIN = "https://commissioner.clawfeehouse.com";
 const LOCAL_AUTH_HOST = "http://localhost:5175";
 const LOCAL_ADMIN_ORIGIN = "http://localhost:5173";
 const LOCAL_GALLERY_ORIGIN = "http://localhost:5174";
+const LOCAL_COMMISSIONER_ORIGIN = "http://localhost:5177";
 
 const ALLOWED_ORIGINS = [
   ADMIN_ORIGIN,
   GALLERY_ORIGIN,
+  COMMISSIONER_ORIGIN,
   LOCAL_ADMIN_ORIGIN,
   LOCAL_GALLERY_ORIGIN,
+  LOCAL_COMMISSIONER_ORIGIN,
 ];
 
 function isLocalHost(hostname: string): boolean {
@@ -28,12 +32,24 @@ function getDefaultGalleryTarget(isLocal: boolean): string {
     : `${GALLERY_ORIGIN}/private`;
 }
 
+function getDefaultCommissionerTarget(
+  isLocal: boolean,
+): string {
+  return isLocal
+    ? `${LOCAL_COMMISSIONER_ORIGIN}/commissions`
+    : `${COMMISSIONER_ORIGIN}/commissions`;
+}
+
 function inferDefaultTarget(
   app: string | null,
   isLocal: boolean,
 ): string {
   if (app === "gallery") {
     return getDefaultGalleryTarget(isLocal);
+  }
+
+  if (app === "commissioner") {
+    return getDefaultCommissionerTarget(isLocal);
   }
 
   return getDefaultAdminTarget(isLocal);
@@ -92,7 +108,10 @@ export function getAuthCallbackUrl(
   redirectTo: string,
   requestUrl?: string,
 ): string {
-  const safeApp = app === "gallery" ? "gallery" : "admin";
+  const safeApp =
+    app === "gallery" || app === "commissioner"
+      ? app
+      : "admin";
   const params = new URLSearchParams({
     app: safeApp,
     redirectTo,

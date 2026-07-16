@@ -21,6 +21,30 @@ export function isAdminSession(
   return role === "admin";
 }
 
+export function isArtistSession(
+  session: Awaited<ReturnType<typeof getSession>>,
+): boolean {
+  const role =
+    (session as { user?: { role?: string } } | null)?.user
+      ?.role ?? "";
+
+  return role === "artist" || role === "admin";
+}
+
+export function isCommissionerSession(
+  session: Awaited<ReturnType<typeof getSession>>,
+): boolean {
+  const role =
+    (session as { user?: { role?: string } } | null)?.user
+      ?.role ?? "";
+
+  return (
+    role === "commissioner" ||
+    role === "user" ||
+    role === "admin"
+  );
+}
+
 export async function requireAdminSession(
   auth: AuthInstance,
   request: Request,
@@ -28,6 +52,32 @@ export async function requireAdminSession(
   const session = await getSession(auth, request);
 
   if (!session || !isAdminSession(session)) {
+    return null;
+  }
+
+  return session;
+}
+
+export async function requireArtistSession(
+  auth: AuthInstance,
+  request: Request,
+) {
+  const session = await getSession(auth, request);
+
+  if (!session || !isArtistSession(session)) {
+    return null;
+  }
+
+  return session;
+}
+
+export async function requireCommissionerSession(
+  auth: AuthInstance,
+  request: Request,
+) {
+  const session = await getSession(auth, request);
+
+  if (!session || !isCommissionerSession(session)) {
     return null;
   }
 

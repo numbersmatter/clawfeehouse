@@ -7,6 +7,12 @@ import {
   getSignInPath,
 } from "~/utils/redirect";
 
+function getAppLabel(app: string): string {
+  if (app === "gallery") return "Gallery";
+  if (app === "commissioner") return "Commissioner Portal";
+  return "Admin";
+}
+
 async function readAuthError(response: Response): Promise<string> {
   try {
     const data = (await response.json()) as {
@@ -112,7 +118,7 @@ export default function SignUp({
         <header className="space-y-2">
           <h1 className="text-2xl font-semibold text-gray-900">Create account</h1>
           <p className="text-sm text-gray-600">
-            Continue to {loaderData.app === "gallery" ? "Gallery" : "Admin"}.
+            Continue to {getAppLabel(loaderData.app)}.
           </p>
         </header>
 

@@ -1,0 +1,4 @@
+{
+  "extends": "../../packages/tsconfig/react-router-node.json",
+  "include": ["vite.config.ts"]
+}

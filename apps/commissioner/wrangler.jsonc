@@ -1,0 +1,32 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "commissioner",
+  "compatibility_date": "2025-04-04",
+  "main": "./workers/app.ts",
+  "vars": {
+    "VALUE_FROM_CLOUDFLARE": "Commission Tracker",
+    "AUTH_SSO_URL": "https://auth.clawfeehouse.com",
+    "BETTER_AUTH_URL": "https://auth.clawfeehouse.com",
+    "BETTER_AUTH_TRUSTED_ORIGINS": "https://admin.clawfeehouse.com,https://gallery.clawfeehouse.com,https://commissioner.clawfeehouse.com",
+    "AUTH_COOKIE_DOMAIN": ".clawfeehouse.com"
+  },
+  "observability": {
+    "enabled": true
+  },
+  "compatibility_flags": ["nodejs_compat"],
+  "d1_databases": [
+    {
+      "binding": "db_clawfeehouse",
+      "database_name": "db_clawfeehouse",
+      "database_id": "4f1bbeed-5918-4c7c-9372-4642bb7ff4f4",
+      "preview_database_id": "test-db"
+    }
+  ],
+  "routes": [
+    {
+      "pattern": "commissioner.clawfeehouse.com",
+      "zone_name": "clawfeehouse.com",
+      "custom_domain": true
+    }
+  ]
+}

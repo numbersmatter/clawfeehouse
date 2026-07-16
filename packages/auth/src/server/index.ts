@@ -10,6 +10,10 @@ export { handleAuthRequest, isAuthRoute } from "./handler";
 export {
   getSession,
   isAdminSession,
+  isArtistSession,
+  isCommissionerSession,
   requireAdminSession,
+  requireArtistSession,
+  requireCommissionerSession,
   type AuthSession,
 } from "./session";
